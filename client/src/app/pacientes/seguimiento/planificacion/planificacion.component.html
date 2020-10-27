@@ -1,0 +1,331 @@
+<p-panel [style]="{'margin-bottom': '1%'}" header="Planificación" toggleable="true" expandIcon="pi pi-chevron-up" collapseIcon="pi pi-chevron-down">
+    <ng-template pTemplate="icons" *ngIf="!planificacion">
+        <button
+            pButton type="button" icon="pi pi-plus"
+            class="p-button-sm p-button-info p-button-raised p-button-rounded mr-1"
+        ></button>
+    </ng-template>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label>Peso:</label>
+                <p-inputNumber [style]="{'width': '100%'}"  inputId="locale-german" mode="decimal"
+                locale="de-DE" [minFractionDigits]="2" [(ngModel)]="planificacion.peso" name="peso"
+                (ngModelChange)="calcularGET()" [disabled]="!newSeguimiento && !edit"></p-inputNumber>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label>Actividad Física:</label> <br>
+                <p-dropdown [style]="{'width': '100%'}" [options]="nivelesActividad"
+                [(ngModel)]="actividadFisica" name="actividad"
+                (ngModelChange)="calcularGET()" [disabled]="!newSeguimiento && !edit"></p-dropdown>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label>Gasto Energético Total:</label>
+                <p-inputNumber [style]="{'width': '100%'}"  inputId="locale-german"
+                mode="decimal" locale="de-DE" [minFractionDigits]="2"
+                [(ngModel)]="planificacion.gastoEnergeticoTotal" name="get" disabled="true"></p-inputNumber>
+            </div>
+        </div>
+    </div>
+    <p-accordion>
+        <p-accordionTab header="Fórmula Sintética" [selected]="true">
+            <ng-container *ngIf="!newSeguimiento && !edit">
+                <div class="row">
+                    <div class="col-2" style="text-align: center;"></div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>Porcentaje</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>Kcal</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>Gramos</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>G/Kg/D</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2" style="text-align: right;">
+                        <h6>Carbohidratos</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6 >{{modelCarbohidratos.porcentaje }}%</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6 >{{modelCarbohidratos.kcal | number : '1.2-2'}}</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6 >{{modelCarbohidratos.gramos | number : '1.2-2'}}</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6 >{{modelCarbohidratos.gramosKilosDia | number : '1.2-2'}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2" style="text-align: right;">
+                        <h6>Proteinas</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>{{modelProteinas.porcentaje }}%</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>{{modelProteinas.kcal | number : '1.2-2'}}</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>{{modelProteinas.gramos | number : '1.2-2'}}</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>{{modelProteinas.gramosKilosDia | number : '1.2-2'}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2" style="text-align: right;">
+                        <h6>Grasas</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>{{modelGrasas.porcentaje }}%</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>{{modelGrasas.kcal | number : '1.2-2' }}</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>{{modelGrasas.gramos | number : '1.2-2' }}</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>{{modelGrasas.gramosKilosDia | number : '1.2-2'}}</h6>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="newSeguimiento || edit">
+                <div class="row">
+                    <div class="col-2" style="text-align: center;"></div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>Porcentaje</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>Kcal</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>Gramos</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <h6>G/Kg/D</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2" style="text-align: right;">
+                        <h6>Carbohidratos</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}" inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2"
+                        [(ngModel)]="modelCarbohidratos.porcentaje" name="get" (ngModelChange)="calcularFormulaSintetica('porcentaje')"></p-inputNumber>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}"  inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2" [(ngModel)]="modelCarbohidratos.kcal" name="get" [disabled]="true"></p-inputNumber>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}"  inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2" [(ngModel)]="modelCarbohidratos.gramos" name="get" [disabled]="true"></p-inputNumber>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}"  inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2" [(ngModel)]="modelCarbohidratos.gramosKilosDia" name="get" (ngModelChange)="calcularFormulaSintetica()"></p-inputNumber>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2" style="text-align: right;">
+                        <h6>Proteinas</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}" inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2"
+                        [(ngModel)]="modelProteinas.porcentaje" name="get" (ngModelChange)="calcularFormulaSintetica('porcentaje')"></p-inputNumber>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}" inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2" [(ngModel)]="modelProteinas.kcal" name="get" [disabled]="true"></p-inputNumber>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}" inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2" [(ngModel)]="modelProteinas.gramos" name="get" [disabled]="true"></p-inputNumber>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}" inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2" [(ngModel)]="modelProteinas.gramosKilosDia" name="get" (ngModelChange)="calcularFormulaSintetica()"></p-inputNumber>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2" style="text-align: right;">
+                        <h6>Grasas</h6>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}" inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2"
+                        [(ngModel)]="modelGrasas.porcentaje" name="get" (ngModelChange)="calcularFormulaSintetica('porcentaje')"></p-inputNumber>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}" inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2" [(ngModel)]="modelGrasas.kcal" name="get" [disabled]="true"></p-inputNumber>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}" inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2" [(ngModel)]="modelGrasas.gramos" name="get" [disabled]="true"></p-inputNumber>
+                    </div>
+                    <div class="col-2" style="text-align: center;">
+                        <p-inputNumber [style]="{'width': 'fit-content'}" inputId="locale-german" mode="decimal" locale="de-DE" [minFractionDigits]="2" [(ngModel)]="modelGrasas.gramosKilosDia" name="get" (ngModelChange)="calcularFormulaSintetica()"></p-inputNumber>
+                    </div>
+                </div>
+            </ng-container>
+            <p-messages *ngIf="(this.modelGrasas.porcentaje + this.modelCarbohidratos.porcentaje + this.modelProteinas.porcentaje) !== 100" key="errorPorcentaje" [(value)]="errorMessage"></p-messages>
+        </p-accordionTab>
+        <p-accordionTab header="Fórmula Desarrollada">
+            <div class="row">
+                <div class="col">
+                    <p-table [value]="planificacion.formulaDesarrollada.alimentos"
+                    styleClass="p-datatable-sm p-datatable-gridlines"  dataKey="nombre" editMode="row">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Alimento</th>
+                                <th>Gramos</th>
+                                <th>Carbohidratos</th>
+                                <th>Proteinas</th>
+                                <th>Grasas</th>
+                                <th *ngIf="edit" style="width:8rem">Acciones</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-alimento let-editing="editing" let-ri="rowIndex">
+                            <tr [pEditableRow]="alimento">
+                                <td pEditableColumn>
+                                    <p-cellEditor *ngIf="editing;else staticTemplate1">
+                                        <ng-template pTemplate="input">
+                                            <p-dropdown [style]="{'width': '150px'}" [options]="tablaComposicion"
+                                            placeholder="--alimento--" [filter]="true" [showClear]="true"
+                                            [(ngModel)]="alimentoSeleccionado" optionLabel="alimento" (ngModelChange)="calcularValoresAlimento()"></p-dropdown>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{alimento.nombre}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                    <ng-template #staticTemplate1>
+                                        {{alimento.nombre}}
+                                    </ng-template>
+                                </td>
+                                <td pEditableColumn>
+                                    <p-cellEditor *ngIf="editing;else staticTemplate2">
+                                        <ng-template pTemplate="input">
+                                            <p-inputNumber inputId="locale-german" inputStyleClass="smaller"
+                                            mode="decimal" locale="de-DE" [minFractionDigits]="2" [disabled]="!alimentoSeleccionado"
+                                            [(ngModel)]="modelAlimento.cantidad" name="get" (ngModelChange)="calcularValoresAlimento()">
+                                            </p-inputNumber>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{alimento.cantidad}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                    <ng-template #staticTemplate2>
+                                        {{alimento.cantidad}}
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputNumber inputId="locale-german" mode="decimal" locale="de-DE"
+                                            [minFractionDigits]="2" [(ngModel)]="modelAlimento.carbohidratos" name="get" [disabled]="true"></p-inputNumber>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{alimento.carbohidratos}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputNumber inputId="locale-german" mode="decimal" locale="de-DE"
+                                            [minFractionDigits]="2" [(ngModel)]="modelAlimento.proteinas" name="get" [disabled]="true"></p-inputNumber>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{alimento.proteinas}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputNumber styleClass="inputPeso" inputId="locale-german" mode="decimal" locale="de-DE"
+                                            [minFractionDigits]="2" [(ngModel)]="modelAlimento.grasas" name="get" [disabled]="true"></p-inputNumber>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{alimento.grasas}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td *ngIf="edit" style="text-align:center">
+                                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"  class="p-button-rounded p-button-text"></button>
+                                    <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-minus"  class="p-button-rounded p-button-text p-button-danger" (click)="deleteRow(alimento)"></button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow (click)="onRowEditSave(alimento)" icon="pi pi-check" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" class="p-button-rounded p-button-text p-button-danger"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <tr>
+                                <td>
+                                    <strong>KCAL TOTALES</strong>
+                                </td>
+                                <td>
+                                    {{ modelTotales.kcal }}
+                                </td>
+                                <td>
+                                    {{ modelTotales.carbohidratos }}
+                                </td>
+                                <td>
+                                    {{ modelTotales.proteinas }}
+                                </td>
+                                <td>
+                                    {{ modelTotales.grasas }}
+                                </td>
+                                <td *ngIf="edit">
+                                    <button pButton pRipple type="button" icon="pi pi-plus" (click)="addAlimento()" style="margin-left: 35%;"
+                                        class="p-button-header p-button-sm p-button-success p-button-text p-button-raised p-button-rounded mr-1"
+                                    ></button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="edit">
+                                <td>
+                                    <strong style="color: crimson !important;">KCAL RESTANTES</strong>
+                                </td>
+                                <td>
+                                    <span style="color: crimson !important;">{{ modelRestantes.kcal }}</span>
+                                </td>
+                                <td>
+                                    <span style="color: crimson !important;">{{ modelRestantes.carbohidratos }}</span>
+                                </td>
+                                <td>
+                                    <span style="color: crimson !important;">{{ modelRestantes.proteinas }}</span>
+                                </td>
+                                <td>
+                                    <span style="color: crimson !important;">{{ modelRestantes.grasas }}</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+    <p-footer>
+        <button *ngIf="!newSeguimiento && !edit" pButton type="button" icon="pi pi-pencil" style="margin-left: 97%;"
+            class="p-button-header p-button-sm p-button-warning p-button-raised p-button-rounded mr-1"
+            (click)="edit = true"
+        ></button>
+        <div *ngIf="!newSeguimiento && edit" class="btn-group" style="margin-left: 93%;">
+            <button pButton type="button" icon="pi pi-check"
+                class="p-button-header p-button-sm p-button-success p-button-raised p-button-rounded mr-1"
+                (click)="save()"
+            ></button>
+            <button pButton type="button" icon="pi pi-times"
+                class="p-button-header p-button-sm p-button-danger p-button-raised p-button-rounded mr-1"
+                (click)="edit = false"
+            ></button>
+        </div>
+    </p-footer>
+</p-panel>

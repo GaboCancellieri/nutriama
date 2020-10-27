@@ -1,0 +1,152 @@
+<div class="container">
+    <div class="tabbed">
+        <input type="radio" name="tabs" id="tab-nav-1" checked>
+        <label for="tab-nav-1">Datos</label>
+        <input type="radio" name="tabs" id="tab-nav-2">
+        <label for="tab-nav-2">Seguimiento</label>
+        <!-- <input type="radio" name="tabs" id="tab-nav-3">
+        <label for="tab-nav-3">Javascript</label>
+        <input type="radio" name="tabs" id="tab-nav-4">
+        <label for="tab-nav-4">Output</label> -->
+        <label for="tab-nav-5" routerLink="/pacientes" routerLinkActive="active">
+          <i class="fas fa-arrow-left"></i>
+          Atras
+        </label>
+        <div class="tabs">
+          <div *ngIf="paciente">
+            <div class="card">
+              <div class="card-header">
+                <h3>
+                  {{paciente.nombre}} {{paciente.apellido}}
+                  <button 
+                  pButton type="button" label="{{(paciente.usuario) ? 'CON USUARIO' : 'SIN USUARIO'}}" class="float-right p-button-sm p-button-outlined p-button-raised mr-2"
+                  [ngClass]="{'p-button-success': paciente.usuario, 'p-button-danger': !paciente.usuario}" tooltipPosition="top"
+                  (click)="crearUsuario()"
+                  pTooltip="Click para crearle un usuario al paciente"
+                ></button>
+                  <button 
+                    pButton type="button" label="{{paciente.estado.toUpperCase()}}" class="float-right p-button-sm p-button-outlined p-button-raised mr-2"
+                    [ngClass]="{'p-button-success': paciente.estado === 'activo', 'p-button-danger': paciente.estado === 'inactivo'}"
+                    tooltipPosition="top"
+                    pTooltip="Si el paciente está activo se puede continuar con el seguimiento"
+                  ></button>
+                  <button *ngIf="paciente.sexo === 'masculino'" pButton type="button" icon="fas fa-mars"
+                  class="p-button-sm p-button-info p-button-raised p-button-rounded"
+                  ></button>
+                  <button *ngIf="paciente.sexo === 'femenino'" pButton type="button" icon="fas fa-venus"
+                  style="background-color: magenta; border-color: palevioletred;"
+                  class="p-button-sm p-button-danger p-button-raised p-button-rounded"
+                  ></button>
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="row" *ngIf="!editar">
+                    <div class="col-6 mb-3">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" pInputText [(ngModel)]="paciente.nombre" name="nombre" class="form-control" readonly="true"/>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="nombre">Apellido:</label>
+                        <input type="text" pInputText [(ngModel)]="paciente.apellido" name="apellido" class="form-control" readonly="true"/>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="documento">Documento:</label>
+                        <input type="text" pInputText [value]="paciente.documento | number" name="documento" class="form-control" readonly="true"/>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="fechaNacimiento">Fecha Nacimiento:</label>
+                        <input type="text" pInputText [value]="paciente.fechaNacimiento | date: 'dd/MM/yyyy'" name="fechaNacimiento" class="form-control" readonly="true"/>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="altura">Altura:</label>
+                        <input type="text" pInputText [value]="paciente.altura + ' cm'" name="altura" class="form-control" readonly="true"/>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="peso">Peso Inicial:</label>
+                        <input type="text" pInputText [value]="paciente.peso + ' kg'" name="peso" class="form-control" readonly="true"/>
+                    </div>
+                    <div class="col-6">
+                        <label for="email">Email:</label>
+                        <input type="text" pInputText [(ngModel)]="paciente.email" name="email" class="form-control" readonly="true" placeholder="No registrado"/>
+                    </div>
+                    <div class="col-6">
+                        <label for="telefono">Telefono:</label>
+                        <p-inputMask readonly="true" mask="(999) 999-9999" [(ngModel)]="pacienteAux.telefono" name="telefono" placeholder="No registrado" styleClass="form-control"></p-inputMask>
+                    </div>
+                </div>
+                <form #f="ngForm" novalidate>
+                  <div class="row" *ngIf="editar">
+                    <div class="col-6 mb-3 form-group p-field required">
+                        <label for="nombre">Nombre:</label>
+                        <input required type="text" pInputText [(ngModel)]="pacienteAux.nombre" name="nombre" class="form-control"/>
+                    </div>
+                    <div class="col-6 mb-3 form-group p-field required">
+                        <label for="nombre">Apellido:</label>
+                        <input required type="text" pInputText [(ngModel)]="pacienteAux.apellido" name="apellido" class="form-control"/>
+                    </div>
+                    <div class="col-6 mb-3 form-group p-field required">
+                        <label for="documento">Documento:</label>
+                        <p-inputMask required mask="99.999.999" [(ngModel)]="pacienteAux.documento" name="documento" placeholder="99.999.999" styleClass="form-control"></p-inputMask>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <label for="fechaNacimiento">Fecha Nacimiento:</label>
+                      <input type="text" pInputText [value]="pacienteAux.fechaNacimiento | date: 'dd/MM/yyyy'" name="fechaNacimiento" class="form-control" readonly="true"/>
+                  </div>
+                  <div class="col-6 mb-3">
+                      <label for="altura">Altura:</label>
+                      <input type="text" pInputText [value]="pacienteAux.altura + ' cm'" name="altura" class="form-control" readonly="true"/>
+                  </div>
+                  <div class="col-6 mb-3">
+                      <label for="peso">Peso Inicial:</label>
+                      <input type="text" pInputText [value]="pacienteAux.peso + ' kg'" name="peso" class="form-control" readonly="true"/>
+                  </div>
+                    <div class="col-6">
+                        <label for="email">Email:</label>
+                        <input pInputText type="text" [(ngModel)]="pacienteAux.email" name="email" placeholder="ejemplo@gmail.com" class="form-control"/>
+                    </div>
+                    <div class="col-6">
+                        <label for="telefono">Telefono:</label> <br>
+                        <p-inputMask mask="(999) 999-9999" [(ngModel)]="pacienteAux.telefono" name="telefono" placeholder="(999) 999-9999" styleClass="form-control"></p-inputMask>
+                    </div>
+                </div>
+              </form>
+              </div>
+              <div class="card-footer">
+                <button *ngIf="!editar && paciente.estado === 'inactivo'" (click)="onActivate()"
+                    pButton type="button" icon="pi pi-lock-open" 
+                    class="float-right p-button-sm p-button-info p-button-raised p-button-rounded"
+                ></button>
+                <button *ngIf="!editar && paciente.estado === 'activo'" (click)="onDelete()"
+                    pButton type="button" icon="pi pi-lock" 
+                    class="float-right p-button-sm p-button-danger p-button-raised p-button-rounded"
+                ></button>
+                <button *ngIf="!editar"
+                    pButton type="button" icon="pi pi-pencil" (click)="editar=true"
+                    class="float-right p-button-sm p-button-warning p-button-raised p-button-rounded mr-1"
+                ></button>
+                <button *ngIf="editar"
+                    pButton type="button" icon="pi pi-times" (click)="cancelEdit()"
+                    class="float-right p-button-sm p-button-danger p-button-raised p-button-rounded"
+                ></button>
+                <button *ngIf="editar" 
+                  [disabled]="
+                    (!pacienteAux.nombre) || 
+                    (!pacienteAux.apellido) || 
+                    (pacienteAux.documento !== paciente.documento && pacienteAux.documento.length < 10)"
+                    pButton type="button" icon="pi pi-check" (click)="updatePaciente()"
+                    class="float-right p-button-sm p-button-sucess p-button-raised p-button-rounded mr-1"
+                ></button>
+              </div>
+            </div>
+          </div>
+            <div *ngIf="paciente">
+              <app-seguimiento [paciente]="paciente"></app-seguimiento>
+            </div>
+          <!-- <div><h2>Javascript</h2><p>Duis luctus dolor ac erat luctus hendrerit. Aenean id congue magna. Proin sit amet elit vel lacus ornare dignissim imperdiet nec odio. Maecenas condimentum egestas lorem et laoreet. Donec ut leo non purus rutrum euismod vel faucibus nunc. Curabitur vel mauris nisi, vitae laoreet erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas ipsum odio, iaculis id vulputate vitae, vestibulum at nunc. Integer non nisl lorem. Quisque lobortis congue semper. Nunc neque nisi, consequat id egestas vitae, porta vel sem.</p></div>
+          <div><h2>Output</h2><p>Fusce vel eros eu lectus ultricies fermentum vestibulum adipiscing odio. Suspendisse ultricies, metus nec dapibus pharetra, quam arcu vulputate nisl, a pretium nisi velit id ante. Nunc auctor augue sit amet orci vestibulum id placerat nulla pellentesque. Duis vel quam velit. Ut auctor ipsum quis lacus semper non pretium mi dignissim. Morbi ultrices augue eget nisi hendrerit placerat. Mauris rhoncus urna quis metus congue quis condimentum risus interdum. Nam lobortis lectus et enim laoreet mattis. Integer faucibus ullamcorper erat, at rhoncus leo bibendum sed. Mauris libero urna, placerat non pretium ac, elementum et arcu. Aliquam non tellus diam, vel scelerisque odio. Etiam a quam et enim vehicula feugiat posuere at dui. Phasellus at nisl quam. Integer nisi mi, varius vitae placerat viverra, dapibus vitae massa. Nullam ut orci vitae nisi ornare aliquam in eget orci.</p></div> -->
+        </div>
+      </div>
+</div>
+
+<p-toast position="top-right" key="c"></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

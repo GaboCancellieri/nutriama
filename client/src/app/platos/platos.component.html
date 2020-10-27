@@ -1,0 +1,142 @@
+<div class="container">
+    <div class="tabbed">
+        <input type="radio" name="tabs" id="tab-nav-1" checked>
+        <label for="tab-nav-1">Platos</label>
+        <label for="tab-nav-2">Equivalencias</label>
+        <label for="tab-nav-5" routerLink="/inicio" routerLinkActive="active">
+          <i class="fas fa-arrow-left"></i>
+          Atras
+        </label>
+        <div class="tabs">
+          <div *ngIf="platos">
+            <div class="card">
+              <div class="card-header">
+                <h3>
+                  Platos
+                  <button 
+                    pButton type="button" label="" icon="pi pi-plus" (click)="displayAgregar=true"
+                    class="float-right p-button-sm p-button-info p-button-raised p-button-rounded"
+                  ></button>
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="row mb-2">
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="nombre">Nombre:</label>
+                      <input class="form-control" pInputText type="text" placeholder="filtrar nombre"
+                      [(ngModel)]="filtros.nombre" name="nombre" (change)="filtrar()">
+                    </div>
+                  </div>
+                  <div class="col-4">
+                      <label for="nombre">Tipo:</label>
+                      <p-dropdown [style]="{'width': '100%'}" [options]="tipos" placeholder="-- filtrar tipo --" [showClear]="true"
+                      [(ngModel)]="filtros.tipo" name="tipoFiltro" (onChange)="filtrar()"></p-dropdown>
+                  </div>
+                  <div class="col-4">
+                      <label for="nombre">Colación:</label> <br>
+                      <p-triStateCheckbox [(ngModel)]="filtros.esColacion" (ngModelChange)="filtrar()"></p-triStateCheckbox> &nbsp;
+                       {{(filtros.esColacion === null) ? 'TODOS' : (filtros.esColacion) ? 'SOLO COLACIONES' : 'PLATOS PRINCIPALES'}}
+                  </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                  <ng-container *ngFor="let plato of auxPlatos">
+                    <div class="col-4" style="margin-bottom: 3%;">
+                    <div class="custom-card">
+                        <div class="content">
+                            <div class="front" style="background-image: url({{plato.imagen}})">
+                                <div class="inner">
+                                    <h2>{{plato.nombre}}</h2>
+                                    <div class="rating">
+                                        <span>{{plato.tipo}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <div class="inner">
+                                    <div class="description" style="width: 100% !important;">
+                                        <span>INGREDIENTES</span>
+                                        <ul>
+                                            <li *ngFor="let ingrediente of plato.ingredientes">
+                                              {{ingrediente.nombre}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="location">{{(plato.esColacion) ? 'COLACIÓN' : 'PLATO PRINCIPAL'}}</div>
+                                    <div class="price">{{plato.tipo}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p-toast position="top-right" key="c"></p-toast>
+</div>
+
+<p-dialog position="top" header="Agregar Plato" [(visible)]="displayAgregar" [style]="{width: '50vw'}" [baseZIndex]="6" [transitionOptions]="'250ms'">
+  <form #f="ngForm" novalidate>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group p-field required">
+          <label for="nombre">Nombre</label> <br>
+          <input required type="text" pInputText [(ngModel)]="model.nombre" name="nombre" class="form-control"/>
+        </div>
+        <div class="form-group p-field required">
+          <label>Tipo</label> <br>
+          <p-dropdown [style]="{'width': '100%'}" [options]="tipos" placeholder="-- elegir un tipo --"
+                [(ngModel)]="model.tipo" name="tipo"></p-dropdown>
+        </div>
+        <div class="form-group required">
+          <label>¿Es un plato principal?</label> <br>
+          <button *ngIf="!checked" pButton type="button" icon="fas fa-utensils" (click)="checked=true"
+          style="color: black; background-color: rgb(0, 255, 115); border-color: rgb(112, 216, 117);"
+          class="p-button-sm p-button-danger p-button-raised p-button-rounded"
+          ></button>
+          <button *ngIf="checked" pButton type="button" icon="fas fa-coffee" (click)="checked=false"
+          style="color: black; background-color: rgb(0, 255, 221); border-color: rgb(112, 216, 176);"
+          class="p-button-sm p-button-danger p-button-raised p-button-rounded"
+          ></button>
+        </div>
+        <div class="form-group p-field required">
+          <label>Ingredientes</label> <br>
+          <ul>
+            <li *ngFor="let ingrediente of model.ingredientes">
+              {{ingrediente.nombre}}
+              <button pButton icon="fas fa-pencil" class="p-button-text p-button-warning" size="sm"></button>
+            </li>
+          </ul>
+          <p-dropdown *ngIf="onAddIngrediente" [style]="{'width': '100%'}" [options]="ingredientes" placeholder="-- elegir ingrediente --"
+          [(ngModel)]="selectedIngrediente" name="ingrediente" [filter]="true" optionLabel="nombre" [tooltipPosition]="'top'"></p-dropdown>
+          <button *ngIf="!onAddIngrediente" pButton class="p-button-text p-button-success" icon="fas fa-plus" (click)="onAddIngrediente=true"></button>
+          <button *ngIf="!onAddIngrediente" [disabled]="model.ingredientes.length < 1" pButton class="p-button-text p-button-danger" icon="fas fa-times" (click)="onRemoveIngrediente()"></button>
+          <button *ngIf="onAddIngrediente" pButton class="p-button-text p-button-success" icon="fas fa-check" (click)="addIngrediente()"></button>
+          <button *ngIf="onAddIngrediente" pButton class="p-button-text p-button-danger" icon="fas fa-minus" (click)="onAddIngrediente=false"></button>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group p-field required">
+          <label for="imagen">Imagen</label> <br>
+          <input required type="text" pInputText [(ngModel)]="model.imagen" name="imagen" class="form-control"/>
+        </div>
+        <div class="form-group p-field required ml-3">
+           <img src="{{(model.imagen) ? model.imagen : 'https://icons.iconarchive.com/icons/papirus-team/papirus-status/256/image-missing-icon.png'}}" style="width: 250px;" alt="">
+        </div>
+      </div>
+    </div>
+  </form>  
+    <ng-template pTemplate="footer">
+        <button pButton
+        [disabled]="!model.nombre || !model.imagen || model.ingredientes.length < 1 || !model.tipo"
+        icon="pi pi-check" 
+        (click)="save()" 
+        label="Confirmar" 
+        class="float-right p-button-sm p-button-success p-button-raised p-button-rounded"
+        ></button>
+    </ng-template>
+  </p-dialog>

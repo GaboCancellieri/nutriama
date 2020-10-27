@@ -1,0 +1,48 @@
+/* You can add global styles to this file, and also import other style files */
+//primeng
+@import '~primeicons/primeicons.css';
+@import '~primeng/resources/themes/saga-green/theme.css';
+@import '~primeng/resources/primeng.min.css';
+
+body {
+    color: #ffffff;
+    background-image: url('https://www.toptal.com/designers/subtlepatterns/patterns/burried.png');
+    // background-image: url(https://www.toptal.com/designers/subtlepatterns/patterns/papyrus-dark.png);
+    background-color: #111111;
+    font-family: 'PT Sans', sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.form-group.required label:after {
+    content:" *";
+    color:red;
+  }
+
+  .p-datepicker-header {
+      background-color: rgba($color: #2e792a, $alpha: .9) !important;
+      border-bottom-color: black !important;
+      box-shadow: 1px 1px 3px 0px black;
+  }
+
+  .p-datepicker table td > span.p-highlight {
+    background: rgba($color: #2e792a, $alpha: .9) !important;
+  }
+
+  table.p-datepicker-calendar thead tr {
+      color: white;
+      text-align: center;
+  }
+
+  table.p-datepicker-calendar tbody tr {
+    color: #b2b2b2;
+    text-align: center;
+}
+
+.p-inputnumber-input {
+  width: 150px !important;
+}
+
+// .p-inputnumber-input .smaller {
+//   width: 150px !important;
+// }

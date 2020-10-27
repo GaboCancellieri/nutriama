@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-header">
+        <h3>
+            {{seguimiento.paciente.nombre}} {{seguimiento.paciente.apellido}} - {{seguimiento.fecha | date }}
+            <button pButton class="float-right p-button-raised p-button-rounded p-button-danger" icon="pi pi-arrow-left" (click)="goBack()"></button>
+        </h3>
+    </div>
+    <div class="card-body" style="background: linear-gradient( rgb(199, 199, 199), rgb(140, 140, 140));">
+        <app-planificacion 
+        [paciente]="seguimiento.paciente" (onsave)="save($event)"
+        [planificacion]="planificacion" [newSeguimiento]="!seguimiento.planificacion">
+        </app-planificacion>
+        <app-distribucion-alimentaria></app-distribucion-alimentaria>
+        <p-panel [style]="{'margin-bottom': '1%'}"  header="Selección de Alimentos" toggleable="true" collapsed="true" expandIcon="pi pi-chevron-up" collapseIcon="pi pi-chevron-down">
+            Content
+        </p-panel>
+        <p-panel header="Recomendaciones" toggleable="true" collapsed="true" expandIcon="pi pi-chevron-up" collapseIcon="pi pi-chevron-down">
+            Content
+        </p-panel>
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>
+<p-toast position="top-right" key="tr"></p-toast>

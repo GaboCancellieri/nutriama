@@ -1,0 +1,282 @@
+{
+    "alimento": "Leche entera fluida",
+    "carbohidratos": 5,
+    "proteinas": 3,
+    "grasas": 3
+}
+{
+    "alimento": "Leche descremada",
+    "carbohidratos": 5,
+    "proteinas": 3,
+    "grasas": 1.5
+}
+{
+    "alimento": "Leche en polvo entera",
+    "carbohidratos": 58,
+    "proteinas": 26,
+    "grasas": 26
+}
+{
+    "alimento": "Leche en polvo descremada",
+    "carbohidratos": 50,
+    "proteinas": 36,
+    "grasas": 1
+}
+{
+    "alimento": "Ricota Entera",
+    "carbohidratos": 2,
+    "proteinas": 11,
+    "grasas": 10
+}
+{
+    "alimento": "Yogur Entero",
+    "carbohidratos": 5,
+    "proteinas": 3,
+    "grasas": 3
+}
+{
+    "alimento": "Yogur Descremado",
+    "carbohidratos": 5,
+    "proteinas": 3,
+    "grasas": 0.5
+}
+{
+    "alimento": "Yogur Saborizado",
+    "carbohidratos": 11,
+    "proteinas": 3,
+    "grasas": 3
+}
+{
+    "alimento": "Crema de Leche",
+    "carbohidratos": 2,
+    "proteinas": 2,
+    "grasas": 30
+}
+{
+    "alimento": "Queso Blando",
+    "carbohidratos": 0,
+    "proteinas": 20,
+    "grasas": 20
+}
+{
+    "alimento": "Queso Semiduro",
+    "carbohidratos": 0,
+    "proteinas": 25,
+    "grasas": 25
+}
+{
+    "alimento": "Queso Duro",
+    "carbohidratos": 0,
+    "proteinas": 30,
+    "grasas": 30
+}
+{
+    "alimento": "Huevo",
+    "carbohidratos": 0,
+    "proteinas": 12,
+    "grasas": 12
+}
+{
+    "alimento": "Yema",
+    "carbohidratos": 0,
+    "proteinas": 2,
+    "grasas": 6
+}
+{
+    "alimento": "Clara",
+    "carbohidratos": 0,
+    "proteinas": 4,
+    "grasas": 0
+}
+{
+    "alimento": "Carnes Promedio",
+    "carbohidratos": 0,
+    "proteinas": 20,
+    "grasas": 10
+}
+{
+    "alimento": "Carne de Vaca Grasa",
+    "carbohidratos": 0,
+    "proteinas": 20,
+    "grasas": 20
+}
+{
+    "alimento": "Carnes de Vaca Magra",
+    "carbohidratos": 0,
+    "proteinas": 20,
+    "grasas": 10
+}
+{
+    "alimento": "Carne de Ave",
+    "carbohidratos": 0,
+    "proteinas": 20,
+    "grasas": 5
+}
+{
+    "alimento": "Carne de Pescado Magra",
+    "carbohidratos": 0,
+    "proteinas": 20,
+    "grasas": 1
+}
+{
+    "alimento": "Carne de Pescado Más Grasa",
+    "carbohidratos": 0,
+    "proteinas": 20,
+    "grasas": 7.5
+}
+{
+    "alimento": "Carne de Cerdo Promedio",
+    "carbohidratos": 0,
+    "proteinas": 30,
+    "grasas": 28.4
+}
+{
+    "alimento": "Vegetales A",
+    "carbohidratos": 5,
+    "proteinas": 0.5,
+    "grasas": 0
+}
+{
+    "alimento": "Vegetales B",
+    "carbohidratos": 5,
+    "proteinas": 1,
+    "grasas": 0
+}
+{
+    "alimento": "Vegetales C",
+    "carbohidratos": 5,
+    "proteinas": 2,
+    "grasas": 0
+}
+{
+    "alimento": "Frutas A",
+    "carbohidratos": 10,
+    "proteinas": 0.5,
+    "grasas": 0
+}
+{
+    "alimento": "Frutas B",
+    "carbohidratos": 10,
+    "proteinas": 1,
+    "grasas": 0
+}
+{
+    "alimento": "Frutas Secas Promedio",
+    "carbohidratos": 10,
+    "proteinas": 18,
+    "grasas": 55
+}
+{
+    "alimento": "Frutas Desecadas",
+    "carbohidratos": 60,
+    "proteinas": 4,
+    "grasas": 0
+}
+{
+    "alimento": "Cereales (granos, harinas, pastas)",
+    "carbohidratos": 70,
+    "proteinas": 10,
+    "grasas": 0
+}
+{
+    "alimento": "Cereales féculas",
+    "carbohidratos": 85,
+    "proteinas": 5,
+    "grasas": 0
+}
+{
+    "alimento": "Legumbres",
+    "carbohidratos": 50,
+    "proteinas": 20,
+    "grasas": 0
+}
+{
+    "alimento": "Soja",
+    "carbohidratos": 20,
+    "proteinas": 40,
+    "grasas": 15
+}
+{
+    "alimento": "Pan Francés",
+    "carbohidratos": 60,
+    "proteinas": 10,
+    "grasas": 0
+}
+{
+    "alimento": "Pan Lactal",
+    "carbohidratos": 44,
+    "proteinas": 9,
+    "grasas": 4
+}
+{
+    "alimento": "Pan Integral",
+    "carbohidratos": 42,
+    "proteinas": 10,
+    "grasas": 3.5
+}
+{
+    "alimento": "Pan con Grasa (Criollos)",
+    "carbohidratos": 60,
+    "proteinas": 10,
+    "grasas": 0
+}
+{
+    "alimento": "Galletas de Agua",
+    "carbohidratos": 70,
+    "proteinas": 10,
+    "grasas": 10
+}
+{
+    "alimento": "Grisines",
+    "carbohidratos": 70,
+    "proteinas": 10,
+    "grasas": 0
+}
+{
+    "alimento": "Azúcar",
+    "carbohidratos": 100,
+    "proteinas": 0,
+    "grasas": 0
+}
+{
+    "alimento": "Dulce de Fruta (Mermelada)",
+    "carbohidratos": 75,
+    "proteinas": 0,
+    "grasas": 0
+}
+{
+    "alimento": "Miel",
+    "carbohidratos": 80,
+    "proteinas": 0,
+    "grasas": 0
+}
+{
+    "alimento": "Dulce de Leche",
+    "carbohidratos": 50,
+    "proteinas": 7,
+    "grasas": 6
+}
+{
+    "alimento": "Manteca - Margarina - Mayonesa",
+    "carbohidratos": 0,
+    "proteinas": 0,
+    "grasas": 80
+}
+{
+    "alimento": "Aceite - Grasa de Vaca",
+    "carbohidratos": 0,
+    "proteinas": 0,
+    "grasas": 100
+}
+{
+    "alimento": "Cacao",
+    "carbohidratos": 75,
+    "proteinas": 5,
+    "grasas": 15
+}
+{
+    "alimento": "Gaseosas",
+    "carbohidratos": 13,
+    "proteinas": 0,
+    "grasas": 0
+}

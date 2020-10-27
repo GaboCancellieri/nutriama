@@ -1,0 +1,122 @@
+<ng-container *ngIf="!selectedSeguimiento">
+  <div class="card">
+      <div class="card-header">
+          <h3>
+              Seguimiento: {{paciente.nombre}} {{paciente.apellido}}
+              <button pButton class="p-button-raised p-button-rounded p-button-info float-right" icon="fas fa-plus" (click)="addSeguimiento()"></button>
+          </h3>
+      </div>
+      <div class="card-body">
+          <div class="form-group">
+              <label for="fecha">Elija un mes:</label> <br>
+              <p-calendar [(ngModel)]="fecha" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange="2000:2030" (ngModelChange)="getSeguimientosPaciente()"></p-calendar>
+          </div>
+          <div class="container">
+            <h1 class="project-name">{{fecha | date: 'MMMM'}}, {{fecha | date: 'y'}}</h1>
+            <ng-container *ngIf="(!seguimientos || seguimientos.length < 1); else timelineSeguimientos">
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                  <div class="card" style="width: 25rem; box-shadow: 2px 2px 5px 0px rgb(97, 97, 97);">
+                    <div class="card-body" style="color: gray; text-shadow: 1px 1px 6px 0px black;">
+                      <div class="row">
+                        <div class="col-4">
+                          <i class="fas fa-surprise fa-5x float-right"></i>
+                        </div>
+                        <div class="col-8">
+                          <h4>No existen seguimientos en este mes.</h4>
+                        </div>
+                      </div>
+                      <div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #timelineSeguimientos>
+            <div id="timeline">
+                <ng-container *ngFor="let seguimiento of seguimientos">
+                  <div class="timeline-item">
+                    <div class="timeline-icon">
+                      <i class="fas fa-clipboard"></i>
+                    </div>
+                    <div class="timeline-content" style="box-shadow: 2px 2px 5px 0px rgb(121, 121, 121);">
+                      <h4 class="mb-3">
+                        {{ seguimiento.fecha | date }}
+                        <button pButton pRipple style="width: 1.8rem; height: 1.8rem;" 
+                        type="button" icon="fas fa-eye" (click)="verDetalle(seguimiento)"
+                        class="bg-light float-right p-button-rounded p-button-info p-button-text"></button>
+                      </h4>
+                      <p-accordion [multiple]="true">
+                        <p-accordionTab *ngIf="seguimiento.planificacion" [selected]="true">
+                          <p-header>
+                            <span>Planificacion</span>
+                            <button pButton pRipple style="width: 1.5rem; height: 1.5rem;
+                                    text-decoration: none !important; margin-left: 16vw !important;" 
+                                    type="button" icon="fas fa-cloud-download-alt"
+                                    class="bg-light p-button-rounded p-button-success p-button-text">
+                            </button>
+                         </p-header>
+                          <div class="row">
+                            <div class="col-4">
+                              <strong>Peso</strong> <br>
+                              {{seguimiento.planificacion.peso}}
+                            </div>
+                            <div class="col-4">
+                              <strong>Acividad</strong> <br>
+                              {{seguimiento.planificacion.actividadFisica}}
+                            </div>
+                            <div class="col-4">
+                              <strong>GET</strong> <br>
+                              {{seguimiento.planificacion.gastoEnergeticoTotal}}kcal
+                            </div>
+                          </div>
+                          <div class="row mt-4">
+                            <div class="col-4">
+                              <strong>HDC</strong> <br>
+                              {{seguimiento.planificacion.formulaSintetica.carbohidratos.kcal}}kcal
+                            </div>
+                            <div class="col-4">
+                              <strong>PR</strong> <br>
+                              {{seguimiento.planificacion.formulaSintetica.proteinas.kcal}}kcal
+                            </div>
+                            <div class="col-4">
+                              <strong>GR</strong> <br>
+                              {{seguimiento.planificacion.formulaSintetica.grasas.kcal}}kcal
+                            </div>
+                          </div>
+                        </p-accordionTab>
+                        <p-accordionTab *ngIf="seguimiento.distribucion" [selected]="false">
+                          <p-header>
+                            <span>Distribución</span>
+                            <button pButton pRipple style="width: 1.5rem; height: 1.5rem; text-decoration: none !important; margin-left: 16.4vw !important;" 
+                                    type="button" icon="fas fa-cloud-download-alt"
+                                    class="bg-light p-button-rounded p-button-success p-button-text">
+                            </button>
+                         </p-header>
+                          <div class="row">
+                            <div class="col-6">
+                              <strong>Fecha</strong> <br>
+                              {{seguimiento.distribucion.fecha | date: 'dd/MM/yyyy'}}
+                            </div>
+                            <div class="col-6">
+                              <strong>Tipo</strong> <br>
+                              {{seguimiento.distribucion.tipoPlan}}
+                            </div>
+                          </div>
+                        </p-accordionTab>
+                      </p-accordion>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-template>
+          </div>
+      </div>
+      <div class="card-footer">
+  
+      </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="selectedSeguimiento">
+  <app-seguimiento-detalle [seguimiento]="selectedSeguimiento" (deselect)="deselect()"></app-seguimiento-detalle>
+</ng-container>

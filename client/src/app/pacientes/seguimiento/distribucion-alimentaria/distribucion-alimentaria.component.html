@@ -1,0 +1,69 @@
+<p-panel [style]="{'margin-bottom': '1%'}"  header="Distribución Alimentaria" toggleable="true" collapsed="true" expandIcon="pi pi-chevron-up" collapseIcon="pi pi-chevron-down">
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label>Tipo Distribución:</label> <br>
+                <p-dropdown [style]="{'width': '100%'}" [options]="tipos" placeholder="-- elegir distribucion --"
+                [(ngModel)]="tipoDistribucion" name="tipo" [disabled]="!edit"></p-dropdown>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label>Número de comidas:</label> <br>
+                <p-dropdown [style]="{'width': '100%'}" [options]="cantidadComidas" placeholder="-- elegir número --"
+                [(ngModel)]="numeroComidas" name="tipo" [disabled]="!edit" (ngModelChange)="makeComidas()"></p-dropdown>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngFor="let comida of comidas">
+        <div class="card bg-primary mt-2" style="color: white;">
+            <div class="card-header">{{ comida.nombre }}</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p-dropdown [options]="getOptions()"
+                        placeholder="-- elegir plato --" [filter]="true" [showClear]="true"
+                        [(ngModel)]="comida.plato" optionLabel="nombre">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <ng-container *ngIf="comida.plato">
+                    <ng-container *ngFor="let ingrediente of comida.plato.ingredientes">
+                        <div class="row">
+                            <div class="col-4">
+                                <input pInputText type="text" [value]="ingrediente.nombre" [disabled]="true"/>
+                            </div>
+                            <div class="col-4">
+                                <p-inputNumber inputId="locale-german" inputStyleClass="smaller"
+                                mode="decimal" locale="de-DE" [minFractionDigits]="2"
+                                [(ngModel)]="ingrediente.cantidad" name="cantidad">
+                                </p-inputNumber>
+                            </div>
+                            <div class="col-4">
+                                <p-dropdown [options]="unidades" placeholder="-- elegir unidad --"
+                                            [(ngModel)]="ingrediente.unidad">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+          </div>
+    </ng-container>
+    <p-footer>
+        <button *ngIf="!newSeguimiento && !edit" pButton type="button" icon="pi pi-pencil" style="margin-left: 97%;"
+            class="p-button-header p-button-sm p-button-warning p-button-raised p-button-rounded mr-1"
+            (click)="edit = true"
+        ></button>
+        <div *ngIf="!newSeguimiento && edit" class="btn-group" style="margin-left: 93%;">
+            <button pButton type="button" icon="pi pi-check"
+                class="p-button-header p-button-sm p-button-success p-button-raised p-button-rounded mr-1"
+                (click)="save()"
+            ></button>
+            <button pButton type="button" icon="pi pi-times"
+                class="p-button-header p-button-sm p-button-danger p-button-raised p-button-rounded mr-1"
+                (click)="edit = false"
+            ></button>
+        </div>
+    </p-footer>
+</p-panel>

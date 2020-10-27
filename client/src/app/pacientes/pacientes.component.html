@@ -1,0 +1,157 @@
+<div class="container">
+    <div class="tabbed">
+        <input type="radio" name="tabs" id="tab-nav-1" checked>
+        <label for="tab-nav-1">Pacientes</label>
+        <!-- <input type="radio" name="tabs" id="tab-nav-2">
+        <label for="tab-nav-2">CSS</label>
+        <input type="radio" name="tabs" id="tab-nav-3">
+        <label for="tab-nav-3">Javascript</label>
+        <input type="radio" name="tabs" id="tab-nav-4">
+        <label for="tab-nav-4">Output</label> -->
+        <label for="tab-nav-5" routerLink="/inicio" routerLinkActive="active">
+          <i class="fas fa-arrow-left"></i>
+          Atras
+        </label>
+        <div class="tabs">
+          <div *ngIf="pacientes">
+            <div class="card">
+              <div class="card-header">
+                <h3>
+                  Pacientes
+                  <button 
+                    pButton type="button" label="" icon="pi pi-plus" (click)="displayAgregar=true"
+                    class="float-right p-button-sm p-button-info p-button-raised p-button-rounded"
+                  ></button>
+                </h3>
+              </div>
+              <div class="card-body">
+                <p-table [columns]="cols" [value]="pacientes" selectionMode="single" [paginator]="true" [rows]="10"
+                [(selection)]="selectedPaciente" dataKey="_id" styleClass="p-datatable-sm" (onRowSelect)="goToDetalle()">
+                  <ng-template pTemplate="header" let-columns>
+                      <tr>
+                          <th *ngFor="let col of columns">
+                              {{col.header}}
+                          </th>
+                      </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns">
+                              <div *ngIf="rowData[col.field] && col.field === 'nombre'">
+                                {{rowData[col.field]}} {{rowData['apellido']}}
+                              </div>
+                              <div *ngIf="rowData[col.field] && col.field === 'documento'">
+                                {{rowData[col.field] | number}}
+                              </div>
+                              <div *ngIf="rowData[col.field] && col.field === 'fechaNacimiento'">
+                                {{ calcularEdad(rowData[col.field]) }}
+                              </div>
+                          </td>
+                      </tr>
+                  </ng-template>
+              </p-table>
+              </div>
+            </div>
+          </div>
+          <!-- <div><h2>CSS</h2><p>Maecenas dictum, urna ut consequat condimentum, est dui commodo diam, ac pretium dui ante eu quam. Curabitur posuere metus nec tellus venenatis placerat. Ut egestas neque in odio vulputate gravida. In at justo ac est laoreet eleifend vel quis arcu. Aliquam erat volutpat. Proin vitae vehicula neque. Nam tempus erat ac ante tincidunt tincidunt. Pellentesque eu nibh sapien. Nunc augue magna, lacinia eget congue eget, mattis id tortor. Fusce id vestibulum neque. Proin tincidunt tellus ut risus lobortis cursus. Duis sit amet urna vel sapien ullamcorper varius.</p></div>
+          <div><h2>Javascript</h2><p>Duis luctus dolor ac erat luctus hendrerit. Aenean id congue magna. Proin sit amet elit vel lacus ornare dignissim imperdiet nec odio. Maecenas condimentum egestas lorem et laoreet. Donec ut leo non purus rutrum euismod vel faucibus nunc. Curabitur vel mauris nisi, vitae laoreet erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas ipsum odio, iaculis id vulputate vitae, vestibulum at nunc. Integer non nisl lorem. Quisque lobortis congue semper. Nunc neque nisi, consequat id egestas vitae, porta vel sem.</p></div>
+          <div><h2>Output</h2><p>Fusce vel eros eu lectus ultricies fermentum vestibulum adipiscing odio. Suspendisse ultricies, metus nec dapibus pharetra, quam arcu vulputate nisl, a pretium nisi velit id ante. Nunc auctor augue sit amet orci vestibulum id placerat nulla pellentesque. Duis vel quam velit. Ut auctor ipsum quis lacus semper non pretium mi dignissim. Morbi ultrices augue eget nisi hendrerit placerat. Mauris rhoncus urna quis metus congue quis condimentum risus interdum. Nam lobortis lectus et enim laoreet mattis. Integer faucibus ullamcorper erat, at rhoncus leo bibendum sed. Mauris libero urna, placerat non pretium ac, elementum et arcu. Aliquam non tellus diam, vel scelerisque odio. Etiam a quam et enim vehicula feugiat posuere at dui. Phasellus at nisl quam. Integer nisi mi, varius vitae placerat viverra, dapibus vitae massa. Nullam ut orci vitae nisi ornare aliquam in eget orci.</p></div> -->
+        </div>
+      </div>
+      <p-toast position="top-right" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+        <ng-template let-message pTemplate="message">
+            <div class="p-flex p-flex-column" style="flex: 1">
+                <div class="p-text-center">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                    <h4>{{message.summary}}</h4>
+                    <p>{{message.detail}}</p>
+                </div>
+                <div class="p-grid p-fluid">
+                    <div class="p-col-6">
+                        <button type="button" pButton (click)="onReject()" label="Yes" class="p-button-success"></button>
+                    </div>
+                    <div class="p-col-6">
+                        <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-toast>
+</div>
+
+
+<p-dialog position="top" header="Agregar Paciente" [(visible)]="displayAgregar" [style]="{width: '50vw'}" [baseZIndex]="6" [transitionOptions]="'250ms'">
+  <form #f="ngForm" novalidate>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group p-field required">
+          <label for="nombre">Nombre</label> <br>
+          <input required type="text" pInputText [(ngModel)]="model.nombre" name="nombre" class="form-control"/>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group p-field required">
+          <label>Apellido</label> <br>
+          <input required type="text" pInputText [(ngModel)]="model.apellido" name="apellido" class="form-control"/>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group p-field required">
+          <label>Documento</label> <br>
+          <p-inputMask required mask="99.999.999" [(ngModel)]="model.documento" name="documento" placeholder="99.999.999" styleClass="form-control"></p-inputMask>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group p-field required">
+          <label>Fecha de Nacimiento</label> <br>
+          <p-inputMask required mask="99/99/9999" [(ngModel)]="model.fechaNacimiento" name="fechaNacimiento" placeholder="99/99/9999" styleClass="form-control"></p-inputMask>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group p-field required">
+          <label>Altura</label> <br>
+          <p-inputNumber [(ngModel)]="model.altura" name="altura" suffix=" cm" placeholder="0 cm" styleClass="form-control"></p-inputNumber>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group p-field required">
+          <label>Peso Actual</label> <br>
+          <p-inputNumber [(ngModel)]="model.peso" name="peso" suffix=" kg" placeholder="0 kg" styleClass="form-control"></p-inputNumber>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group p-field">
+          <label>Email</label> <br>
+          <input pInputText type="text" [(ngModel)]="model.email" name="email" placeholder="ejemplo@gmail.com" class="form-control"/>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group p-field">
+          <label>Telefono</label> <br>
+          <p-inputMask mask="(999) 999-9999" [(ngModel)]="model.telefono" name="telefono" placeholder="(999) 999-9999" styleClass="form-control"></p-inputMask>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-group required">
+          <label>Sexo</label> <br>
+          <button *ngIf="!checked" pButton type="button" icon="fas fa-mars" (click)="checked=true"
+          class="p-button-sm p-button-info p-button-raised p-button-rounded"
+          ></button>
+          <button *ngIf="checked" pButton type="button" icon="fas fa-venus" (click)="checked=false"
+          style="background-color: magenta; border-color: palevioletred;"
+          class="p-button-sm p-button-danger p-button-raised p-button-rounded"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </form>  
+    <ng-template pTemplate="footer">
+        <button pButton
+        [disabled]="!model.nombre || !model.apellido || !model.documento || !model.fechaNacimiento"
+        icon="pi pi-check" 
+        (click)="agregarPaciente()" 
+        label="Confirmar" 
+        class="float-right p-button-sm p-button-success p-button-raised p-button-rounded"
+        ></button>
+    </ng-template>
+  </p-dialog>
